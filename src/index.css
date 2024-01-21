@@ -1,0 +1,48 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.bubble {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 50px;
+    background: olive;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.game-section {
+    width: 95%;
+    max-width: 800px;
+    margin: auto;
+    border: 1px solid red;
+}
+
+.panel-1 {
+    display: flex;
+    justify-content: space-evenly;
+    border: 1px solid blue;
+    gap: 1rem;
+}
+
+.panel-1 .info {
+    text-align: center;
+}
+
+.info p {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.panel-2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+}
