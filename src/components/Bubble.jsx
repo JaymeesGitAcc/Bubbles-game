@@ -1,16 +1,18 @@
 import React from "react";
 
-export const Bubble = ({ number, color }) => {
-    // const colorsArray = ["olive", "crimson", "orchid"];
-    // const colorIndex = Math.floor(Math.random() * colorsArray.length);
-    // const randomNumber = Math.floor(Math.random() * 10);
+export const Bubble = ({ number, color, onClick }) => {
+    const handleOnClick = (e) => {
+        onClick(e);
+    };
+
     return (
-        <div
+        <button
             className="bubble"
             style={{ backgroundColor: `${color}` }}
             data-id={number}
+            onClick={handleOnClick}
         >
             {number}
-        </div>
+        </button>
     );
 };

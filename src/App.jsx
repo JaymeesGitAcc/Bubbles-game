@@ -1,85 +1,55 @@
 import { useEffect, useState } from "react";
 import { Bubble } from "./components/Bubble";
-
-const colorsArray = ["olive", "crimson", "orchid"];
-
-const initialBubbles = () => {
-    const bubblesArray = [];
-    for (let i = 0; i < 50; i++) {
-        const randomNumber = Math.floor(Math.random() * 10);
-        const index = Math.floor(Math.random() * colorsArray.length);
-        bubblesArray.push({
-            number: randomNumber,
-            color: colorsArray[index],
-        });
-    }
-    return bubblesArray;
-};
+import { getRandomNumber, populateBubbles } from "./utils/utils";
+import { Controller } from "./components/Controller";
+import { Header } from "./components/Header";
+import { InitialMessage } from "./components/InitialMessage";
 
 function App() {
-    const [score, setScore] = useState(0);
+    const [score, setScore] = useState(null);
     const [hit, setHit] = useState(0);
     const [timer, setTimer] = useState(0);
-    const [bubbles, setBubbles] = useState(initialBubbles());
+    const [bubbles, setBubbles] = useState(populateBubbles());
+
+    const numberToHit = getRandomNumber();
+    const maxTime = 15;
+
+    const onStart = () => {
+        setTimer(maxTime);
+        setScore(0);
+        setHit(getRandomNumber());
+    };
+
+    const onCancel = () => {
+        setTimer(0);
+        setHit(0);
+    };
 
     const generateBubbles = (e) => {
-        const target = e.target.dataset;
-        const newBubbles = [];
-        if (target) {
-            const numberToHit = Number(target.id);
-            // console.log(target);
-            console.log(numberToHit);
-            for (let i = 0; i < 50; i++) {
-                const randomNumber = Math.floor(Math.random() * 10) + 1;
-                const index = Math.floor(Math.random() * colorsArray.length);
-                newBubbles.push({
-                    number: randomNumber,
-                    color: colorsArray[index],
-                });
+        const id = e.target.dataset.id;
+        if (id) {
+            const number = Number(id);
+            setHit(numberToHit);
+            setBubbles(populateBubbles());
+
+            if (number === hit) {
+                setScore(score + 10);
+                console.log("hit");
+            } else {
+                setScore(score - 10);
+                console.log("missed");
             }
-            if (numberToHit !== NaN) {
-                if (numberToHit === hit) {
-                    setScore(score + 10);
-                } else {
-                    setScore(score - 10);
-                }
-                setHit(Math.floor(Math.random() * 10));
-            }
-            setBubbles(newBubbles);
         }
     };
 
-    // useEffect(() => {
-    //     const initialBubbles = [];
-    //     for (let i = 0; i < 50; i++) {
-    //         const randomNumber = Math.floor(Math.random() * 10);
-    //         const index = Math.floor(Math.random() * colorsArray.length);
-    //         initialBubbles.push({
-    //             number: randomNumber,
-    //             color: colorsArray[index],
-    //         });
-    //     }
-    //     setBubbles(initialBubbles);
-    // }, []);
-
-    // useEffect(() => {
-    //     const initialBubbles = [];
-    //     for (let i = 0; i < 50; i++) {
-    //         const randomNumber = Math.floor(Math.random() * 10);
-    //         const colorIndex = Math.floor(Math.random() * colorsArray.length);
-    //         initialBubbles.push({
-    //             number: randomNumber,
-    //             color: colorsArray[colorIndex],
-    //         });
-    //         setBubbles(initialBubbles);
-    //     }
-    //     console.log("initial render");
-    // }, []);
-
     useEffect(() => {
-        const id = setInterval(() => {
-            if (timer) setTimer((t) => t - 1);
-        }, 1000);
+        let id;
+
+        if (timer) {
+            id = setInterval(() => {
+                setTimer((t) => t - 1);
+            }, 1000);
+        }
 
         return () => {
             clearInterval(id);
@@ -88,51 +58,31 @@ function App() {
 
     return (
         <>
-            <h1>Bubbles game</h1>
-            {/* <Bubble /> */}
-            <div>
-                <button
-                    onClick={() => {
-                        setTimer(60);
-                        setScore(0);
-                    }}
-                    disabled={timer !== 0}
-                >
-                    start
-                </button>
-                <button onClick={() => setTimer(0)}>cancel game</button>
-            </div>
+            <Controller {...{ onStart, onCancel, timer }} />
             <section className="game-section">
-                <header className="panel-1">
-                    <div className="info">
-                        <h2>Score</h2>
-                        <p>{score}</p>
-                    </div>
-                    <div className="info">
-                        <h2>HIT</h2>
-                        <p>{hit}</p>
-                    </div>
-                    <div className="info">
-                        <h2>Timer</h2>
-                        <p>{timer}</p>
-                    </div>
-                </header>
-                <main className="panel-2" onClick={generateBubbles}>
+                <Header {...{ score, hit, timer }} />
+                <main className="panel-2">
                     {timer > 0 ? (
                         bubbles.map((bubble, index) => (
                             <Bubble
                                 key={index}
                                 number={bubble.number}
                                 color={bubble.color}
+                                onClick={(e) => {
+                                    generateBubbles(e);
+                                }}
                             />
                         ))
+                    ) : score !== null ? (
+                        <div style={{ fontSize: "2rem" }}>
+                            Your score: {score}
+                        </div>
                     ) : (
-                        <div>Your score: {score}</div>
+                        <InitialMessage />
                     )}
                 </main>
             </section>
         </>
     );
 }
-
 export default App;
