@@ -20,7 +20,7 @@ function App() {
         setHit(getRandomNumber());
     };
 
-    const onCancel = () => {
+    const onReset = () => {
         setTimer(0);
         setScore(null);
         setHit(0);
@@ -59,7 +59,7 @@ function App() {
 
     return (
         <>
-            <Controller {...{ onStart, onCancel, timer }} />
+            <Controller {...{ onStart, onReset, timer }} />
             <section className="game-section">
                 <Header {...{ score, hit, timer }} />
                 <main className="panel-2">

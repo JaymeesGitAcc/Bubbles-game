@@ -1,8 +1,8 @@
 import React from "react";
 
-export const Controller = ({ onStart, onCancel, timer }) => {
-    const disableStart = timer !== 0 ? { opacity: 0.5 } : {};
-    const disableCancel = timer === 0 ? { opacity: 0.5 } : {};
+export const Controller = ({ onStart, onReset, timer }) => {
+    const disableStart = timer !== 0 ? { opacity: 0.25 } : {};
+    const disableReset = timer === 0 ? { opacity: 0.25 } : {};
     return (
         <div className="controller">
             <button
@@ -14,12 +14,12 @@ export const Controller = ({ onStart, onCancel, timer }) => {
                 START
             </button>
             <button
-                onClick={onCancel}
+                onClick={onReset}
                 disabled={timer === 0}
-                style={disableCancel}
-                className="cancel-btn"
+                style={disableReset}
+                className="reset-btn"
             >
-                CANCEL
+                RESET
             </button>
         </div>
     );

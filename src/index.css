@@ -86,7 +86,7 @@
     background-color: green;
 }
 
-.cancel-btn {
+.reset-btn {
     background-color: crimson;
 }
 
@@ -102,7 +102,7 @@
     background-color: darkgreen;
 }
 
-.cancel-btn:hover {
+.reset-btn:hover {
     background-color: rgb(192, 8, 45);
 }
 
