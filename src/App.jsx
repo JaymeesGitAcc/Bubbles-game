@@ -12,7 +12,7 @@ function App() {
     const [bubbles, setBubbles] = useState(populateBubbles());
 
     const numberToHit = getRandomNumber();
-    const maxTime = 15;
+    const maxTime = 60;
 
     const onStart = () => {
         setTimer(maxTime);
