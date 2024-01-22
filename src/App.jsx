@@ -22,6 +22,7 @@ function App() {
 
     const onCancel = () => {
         setTimer(0);
+        setScore(null);
         setHit(0);
     };
 
